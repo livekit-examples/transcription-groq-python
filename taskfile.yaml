@@ -14,7 +14,7 @@ tasks:
       - platforms: [windows]
         cmd: echo -e "\tpowershell venv/Scripts/Activate.ps1\r"
       - echo -e "\tpip install -r requirements.txt\r"
-      - echo -e "\tpython3 transcriber.py dev\r\n"
+      - echo -e "\tpython3 main.py dev\r\n"
 
   install:
     desc: "Bootstrap application for local development"
