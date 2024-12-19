@@ -29,8 +29,8 @@ async def _forward_transcription(
 
 async def entrypoint(ctx: JobContext):
     logger.info(f"starting transcriber (speech to text) example, room: {ctx.room.name}")
-    # uses "whisper-large-v3-turbo" model by default 
-    stt_impl = plugin.STT.with_groq()
+    # when model is omitted, uses "whisper-large-v3-turbo" by default
+    stt_impl = plugin.STT.with_groq(model="whisper-large-v3")
 
     if not stt_impl.capabilities.streaming:
         # wrap with a stream adapter to use streaming semantics
