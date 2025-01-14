@@ -18,9 +18,9 @@ async def _forward_transcription(
     async for ev in stt_stream:
         if ev.type == stt.SpeechEventType.INTERIM_TRANSCRIPT:
             # you may not want to log interim transcripts, they are not final and may be incorrect
-            pass
+            logger.debug(f" -> {ev.alternatives[0].text}")
         elif ev.type == stt.SpeechEventType.FINAL_TRANSCRIPT:
-            print(" -> ", ev.alternatives[0].text)
+            logger.debug(f" ~> {ev.alternatives[0].text}")
         elif ev.type == stt.SpeechEventType.RECOGNITION_USAGE:
             logger.debug(f"metrics: {ev.recognition_usage}")
 
@@ -29,8 +29,8 @@ async def _forward_transcription(
 
 async def entrypoint(ctx: JobContext):
     logger.info(f"starting transcriber (speech to text) example, room: {ctx.room.name}")
-    # when model is omitted, uses "whisper-large-v3-turbo" by default
-    stt_impl = plugin.STT.with_groq(model="whisper-large-v3")
+    # uses "whisper-large-v3-turbo" model by default 
+    stt_impl = plugin.STT.with_groq()
 
     if not stt_impl.capabilities.streaming:
         # wrap with a stream adapter to use streaming semantics
